@@ -55,7 +55,9 @@ func runInteractive(projectName, moduleName, dbChoice string) error {
 
 	projectPath := filepath.Join(".", projectName)
 	if _, err := os.Stat(projectPath); err == nil {
-		return fmt.Errorf("directory %q already exists; choose another name or remove it first", projectName)
+		if _, err := os.Stat(filepath.Join(projectPath, "go.mod")); err == nil {
+			return fmt.Errorf("directory %q already contains a go.mod file; choose another name or remove it first", projectName)
+		}
 	}
 
 	// Launch interactive prompt

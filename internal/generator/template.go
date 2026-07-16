@@ -1,13 +1,17 @@
 package generator
 
 import (
+	"embed"
 	"os"
 	"strings"
 )
 
+//go:embed templates
+var templatesFS embed.FS
+
 func GenerateFile(templatePath string, outputPath string, replacements map[string]string) error {
 
-	content, err := os.ReadFile(templatePath)
+	content, err := templatesFS.ReadFile(templatePath)
 
 	if err != nil {
 		return err
